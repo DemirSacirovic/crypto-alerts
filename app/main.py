@@ -1,3 +1,4 @@
+from app.services.binance import binance_ws
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import api_router
@@ -17,6 +18,16 @@ async def health_check():
 app.include_router(api_router, prefix='/api')
 
 
+@app.on_event('startup')
+async def startup_event():
+    binance_ws.start('btcusdt')
+    print('Binance WebSocket stared!')
+
+
+@app.on_event('shutdown')
+async def shutdown_event():
+    binance_ws.stop()
+    print('Binance WebSocket stopped!')
 
 
 
