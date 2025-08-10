@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from app.core.database import get_db
@@ -9,11 +9,11 @@ from passlib.context import CryptContext
 router = APIRouter()
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated = 'auto')
 
-@router.post('/', response_model=UserResponse)
+@router.post('/', response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()
     if db_user:
-        raise HTTPException(status_code=400, detail='Email already registered')
+        raise HTTPException(status_code=409, detail='Email already registered')
 
     hashed_password = pwd_context.hash(user.password)
     db_user = User(email=user.email, username=user.username,
