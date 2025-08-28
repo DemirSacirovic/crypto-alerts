@@ -1,0 +1,10 @@
+import requests
+
+def get_binance_prices(symbol):
+
+    """ symbol: 'BTCUSDT' ili 'btcusdt'
+    returns: float cene ili None
+    """
+    pass
+
+

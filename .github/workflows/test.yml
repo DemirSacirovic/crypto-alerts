@@ -1,0 +1,9 @@
+name: Test
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/acheckout@v2
+      - run: echo "Test would run here"
+
