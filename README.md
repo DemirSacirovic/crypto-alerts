@@ -1,75 +1,74 @@
-  # Crypto Alert System
+# Crypto Alert System
 
-  Real-time cryptocurrency price monitoring and alert system built with FastAPI.
+Real-time cryptocurrency price monitoring and alert system built with FastAPI.
 
-  ## Features
+**Live API**: https://crypto-alerts-dfwo.onrender.com
 
-  - 🔐 User registration and management
-  - 📊 Real-time price monitoring via Binance WebSocket
-  - 🔔 Price alerts (above/below targets)
-  - 🚀 RESTful API with automatic documentation
-  - 💾 SQLite database with SQLAlchemy ORM
+## Features
 
-  ## Tech Stack
+- 🔐 User registration and management
+- 📊 Real-time price monitoring via Binance API
+- 🔔 Price alerts (above/below targets)
+- 🚀 RESTful API with automatic documentation
+- 💾 SQLite database with SQLAlchemy ORM
+- 🔄 Background tasks with Celery + Redis
+- 🐳 Docker Compose orchestration
+- ✅ CI/CD with GitHub Actions
 
-  - **Backend**: FastAPI (Python 3.13)
-  - **Database**: SQLAlchemy + SQLite
-  - **WebSocket**: Binance streaming API
-  - **Validation**: Pydantic
+## Tech Stack
 
-  ## Installation
+- **Backend**: FastAPI (Python 3.10)
+- **Database**: SQLAlchemy + SQLite
+- **Queue**: Celery + Redis
+- **Container**: Docker
+- **Deploy**: Render
+- **CI/CD**: GitHub Actions
+## Quick Start
 
-  1. Clone the repository:
-  ```bash
-  git clone https://github.com/DemirSacirovic/crypto-alerts.git
-  cd crypto-alerts
+### Local Development
 
-  2. Create virtual environment:
-  python -m venv venv
-  source venv/bin/activate  # Linux/Mac
+```bash
+# Clone repository
+git clone https://github.com/DemirSacirovic/crypto-alerts.git
+cd crypto-alerts
 
-  3. Install dependencies:
-  pip install -r requirements.txt
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
 
-  4. Run the application:
-  uvicorn app.main:app --reload
+# Install dependencies
+pip install -r requirements.txt
 
-  5. Open browser: http://localhost:8000/docs
+# Run with Docker Compose
+docker-compose up -d
 
-  API Endpoints
+# Or run directly
+uvicorn app.main:app --reload
 
-  - POST /api/users/ - Create user
-  - GET /api/users/ - List users
-  - POST /api/alerts/ - Create price alert
-  - GET /api/alerts/ - List alerts
-  - GET /api/prices/current/{symbol} - Get current price
+API Endpoints
 
-  Example Usage
+- GET / - API status
+- GET /health - Health check
+- GET /docs - Swagger documentation
+- POST /api/users/ - Create user
+- GET /api/users/ - List users
+- POST /api/alerts/ - Create price alert
+- GET /api/alerts/ - List alerts
 
-  Create a price alert:
-  POST /api/alerts/
-  {
-    "symbol": "BTCUSDT",
-    "target_price": 50000,
-    "alert_type": "above"
-  }
+# Create alert
+curl -X POST https://crypto-alerts-dfwo.onrender.com/api/alerts/ \
+  -H "Content-Type: application/json" \
+  -d '{"symbol":"btcusdt","target_price":150000,"alert_type":"above"}'
 
-  Project Structure
+Project Structure
+app/
+├── api/          # API endpoints
+├── models/       # Database models
+├── schemas/      # Pydantic schemas
+├── services/     # Business logic
+├── tasks.py      # Celery tasks
+└── main.py       # Application entry
 
-  app/
-  ├── api/          # API endpoints
-  ├── models/       # Database models
-  ├── schemas/      # Pydantic schemas
-  ├── services/     # Business logic
-  └── main.py       # Application entry
+Author
 
-  Future Improvements
-
-  - Email notifications
-  - Multiple cryptocurrency pairs
-  - Historical price charts
-  - User authentication with JWT
-
-  Author
-
-  Demir Sacirovic - https://github.com/DemirSacirovic
+Demir Sacirovic - https://github.com/DemirSacirovic
