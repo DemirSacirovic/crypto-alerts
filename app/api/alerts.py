@@ -32,15 +32,4 @@ def get_alerts(
     db: Session = Depends(get_db),
     current_user_id: int = 1  # TODO: Get from auth later
 ):
-    try:
-    
-      # TYPE THIS PART - Your query:
-      alerts = db.query(Alert).filter(
-          Alert.user_id == current_user_id
-      ).offset(skip).limit(limit).all()
-      return alerts
-    except Exception as e:
-        print(f"ERROR in get_alerts: {e}")
-        from app.core.database import engine, Base
-        Base.metadata.create_all(bind=engine)
-        return []
+    return []
